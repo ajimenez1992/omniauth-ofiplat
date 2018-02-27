@@ -83,7 +83,7 @@ module OmniAuth
       def domain_url
         domain_url = URI(options.domain)
         domain_url = URI("https://#{domain_url}") if domain_url.scheme.nil?
-        domain_url+"?wa="+options.wa+"&wtrealm="+options.wtrealm++++
+        domain_url+"?wa="+options.wa+"&wtrealm="+options.wtrealm
       end
 
       def client_info
