@@ -10,18 +10,12 @@ module OmniAuth
       args [
         :domain,
         :wreply,
-        :app,
-        :wct,
-        :ru,
-        :id,
-        :wctx,
-        :wtrealm,
-        :wa
+        :app
       ]
 
       def client
         options.client_options.site = domain_url
-        options.client_options.authorize_url = '/authorize'
+        options.client_options.authorize_url = domain_url
         options.client_options.token_url = '/oauth/token'
         options.client_options.userinfo_url = '/userinfo'
         super
@@ -56,9 +50,16 @@ module OmniAuth
       end
 
       def authorize_params
-        #params = super
-        #params['ofiplatClient'] = client_info
-        options
+        params = {}
+        params['wa'] = 'wsignin1.0'
+        params['wtrealm'] = 'urn:ofitest'
+        params['wctx'] = 'rm=0'
+        params['id'] = 'passive'
+        params['ru'] = '/'
+        params['wct'] = DateTime.now.to_s
+        params['wreply'] = options[:wreply]
+        params['app'] = options[:app]
+        params
       end
 
       def request_phase
@@ -83,7 +84,7 @@ module OmniAuth
       def domain_url
         domain_url = URI(options.domain)
         domain_url = URI("https://#{domain_url}") if domain_url.scheme.nil?
-        domain_url+"?wa="+options.wa+"&wtrealm="+options.wtrealm
+        domain_url
       end
 
       def client_info
