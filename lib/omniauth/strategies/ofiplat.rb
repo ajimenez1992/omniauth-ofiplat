@@ -5,7 +5,7 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class OfiPlat < OmniAuth::Strategies::OAuth2
-      option :name, 'ofiplat'
+      option :name, :ofiplat
 
       args [
         :domain,
@@ -56,9 +56,9 @@ module OmniAuth
       end
 
       def authorize_params
-        params = super
-        params['ofiplatClient'] = client_info
-        params
+        #params = super
+        #params['ofiplatClient'] = client_info
+        options
       end
 
       def request_phase
@@ -83,7 +83,7 @@ module OmniAuth
       def domain_url
         domain_url = URI(options.domain)
         domain_url = URI("https://#{domain_url}") if domain_url.scheme.nil?
-        domain_url.to_s
+        domain_url+"?wa="+options.wa+"&wtrealm="+options.wtrealm++++
       end
 
       def client_info
